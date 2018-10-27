@@ -11,7 +11,7 @@ if __name__ == '__main__':
 	# stop your AI and continue from the last time you quit. 
 	# If there's a token and the token is valid, JoinGame() will continue. If
 	# not, you will join as a new player.
-	if g.JoinGame('MYAI'):
+	if g.JoinGame('YouAI'):
 		# Put you logic in a while True loop so it will run forever until you 
 		# manually stop the game
 		while True:
@@ -27,7 +27,7 @@ if __name__ == '__main__':
 						d = ([(0,1), (0,-1), (1, 0), (-1,0)])
 						# Get that adjacent cell
 						empty = False
-						for i in range(3):
+						for i in range(4):
 							cc = g.GetCell(x+d[i][0], y+d[i][1])
 							if cc != None:
 								if cc.owner == None:
@@ -35,14 +35,16 @@ if __name__ == '__main__':
 									empty = True
 									break 
 						if empty == False:
-							for i in range(3):
+							for i in range(4):
 								cc = g.GetCell(x+d[i][0], y+d[i][1])
 								if cc != None:
-									if cc.owner != g.uid:
+									if cc.owner == g.uid:
+										continue
+									elif cc.owner != g.uid:
 										out = d[i]
-										empty = True
 										break
 
+						print(cc.takeTime)
 						# If that cell is valid(current cell + direction could be
 						# out of range) and that cell is not mine
 						if cc != None:
@@ -51,8 +53,6 @@ if __name__ == '__main__':
 								# if (True, None, None) is printed, it means attack
 								# is successful, otherwise it will print the error
 								# code and error message
-								# if (empty == False) :
-								#  	out = random.choice([(0,1), (0,-1), (1, 0), (-1,0)])
 								print(g.AttackCell(x+out[0], y+out[1]))
 								# Refresh the game, get updated game data
 								g.Refresh()
